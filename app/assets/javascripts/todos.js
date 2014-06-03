@@ -60,22 +60,50 @@ $(function(){
 
     App.saveModel = function(model, callback){
         // DO SOME STUFF HERE TO PERSIST DATA
+        $.ajax({
+            url: this.urls.create.path,
+            type: this.urls.create.method,
+            data: { 
+                todo: model 
+            }
+        })
         callback(model);
     };
 
     App.updateItem = function(model, callback){
-        // DO SOMETHING HERE
+        // DO SOMETHING HERE 
+        $.ajax({
+            url: '/todos/' + model.id + '.json',
+            type: 'put',
+            data: { 
+                todo: model 
+            }
+        })
+        callback(model);  
+    };
+
+     App.deleteItem = function(model, callback){
+        // DO SOMETHING HERE 
+        $.ajax({
+            url: '/todos/' + model.id + '.json',
+            type: 'delete',
+            data: { 
+                todo: model 
+            }
+        })
         callback(model);  
     };
 
     App.doThis = function(func){
-    	func.apply(App);
+        func.apply(App);
         return this;
     };
 
     App.urls = {
         index : { path: '/todos.json', method : 'get'},
-        create : { path : '/todos.json', method : 'post'}
+        create : { path : '/todos.json', method : 'post'},
+        update : { path: '/todos/:id', method : 'post'},
+        destroy : { path: '/todos/:id', method : 'delete'}
     };
 
     App.getItems = function(callback) {
@@ -101,7 +129,6 @@ $(function(){
         });
         
     });
-
 
     App.doThis(function(){
         var _this = this;
